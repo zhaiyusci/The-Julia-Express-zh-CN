@@ -1,4 +1,6 @@
+% !TeX TS-program = xelatex
 \documentclass[10pt,a4paper]{article}
+\usepackage[fontset=fandol, UTF8]{ctex}
 \usepackage[margin=2cm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -16,14 +18,14 @@
 \usepackage{textcomp}
 
 \rhead{\raisebox{0.66ex}{\thepage}}
-\lhead{\raisebox{0.66ex}{The Julia Express}\ \ \includegraphics[width=0.409cm]{rocketship11.png}}
+\lhead{\raisebox{0.66ex}{Julia 速览}\ \ \includegraphics[width=0.409cm]{rocketship11.png}}
 \cfoot{}
 \setlength\headheight{15pt}
 
 \hypersetup{
     pdfstartview={FitH},
-    pdftitle={Julia Express},
-    pdfauthor={Bogumił Kamiński},
+    pdftitle={Julia 速览},
+    pdfauthor={Bogumił Kamiński, Yu Zhai},
     colorlinks=true,
     linkcolor=blue,
     urlcolor=blue
@@ -39,11 +41,11 @@
  }
 
 \setlength{\parskip}{2pt}%
-\setlength{\parindent}{0pt}
+%\setlength{\parindent}{0pt}
 
 \begin{document}
-\title{The Julia Express}
-\author{Bogumił Kamiński}
+\title{Julia 速览}
+\author{作者：Bogumi\l{} Kami\'n{}ski\\翻译：翟羽}
 \maketitle
 
 {\centering
@@ -52,28 +54,33 @@
 
 \tableofcontents
 
-\section{Introduction}
-The Purpose of this document is to introduce programmers to the Julia programming by example.
-This is a simplified exposition of the language.\footnote{The rocket ship clip is free for download at \url{http://www.clipartlord.com/free-cartoon-rocketship-clip-art-2/}.}
+\section{引言}
+本文旨在通过实例向程序员介绍 Julia 编程，
+是 Julia 语言的简明概览。
+\footnote{小火箭图标可由以下网址免费获取  \url{http://www.clipartlord.com/free-cartoon-rocketship-clip-art-2/}。
+（译注：该站已殁。）}
 
-It is simplest to execute these examples by copy-pasting to the Julia REPL (\url{https://docs.julialang.org/en/latest/stdlib/REPL/}) or copying them to a file and next running them using \lstinline|include| function. The difference is that copy-paste approach will echo output of each instruction to the terminal.
+执行这些例子的最简方法是将他们复制粘贴到 Julia 的输入-求值-打印循环（REPL） 里，或者粘贴到文件中然后使用 \lstinline|include| 功能运行。
+两者不同之处在于前者每粘贴一条指令，终端中就会输出其结果。
 
-If some package is missing on your system switch to the package manager mode by pressing \lstinline|]| in the Julia REPL, and then write \lstinline|add [package name]| to require installing it.
+若你的系统中缺少某包（package），则在 Julia REPL 中按下 \lstinline|]| 进入包管理器，
+然后键入 \lstinline|add [包名]| 以安装该包。
 
-This is an introductory document. Important topics that a person learning the Julia should be aware of, that are not covered are:
+本文仅具导论功能。以下重要主题本文未能涵盖，为 Julia 学习者所应知应会：
 \begin{enumerate}[label=\arabic*),nolistsep]
-  \item parametric types;
-  \item parallel and distributed processing;
-  \item advanced I/O operations;
-  \item advanced package management;
-  \item interaction with system shell; see \lstinline|run|;
-  \item exception handling; see \lstinline|try|;
-  \item creation of coroutines;
-  \item integration with C, Fortran, Python and R.
+  \item 参数类型（parametric types）；
+  \item 并行（parallel）与分布式处理（distributed processing）；
+  \item 进阶输入输出（I/O）操作；
+  \item 进阶包管理；
+  \item 与操作系统shell交互，参见 \lstinline|run|；
+  \item 异常（exception）处理，参见 \lstinline|try|；
+  \item 协程（coroutine）创建;
+  \item 与 C、Fortran、Python 以及 R 交互。
 \end{enumerate}
-You can read about them in the latest Julia documentation at \url{http://julia.readthedocs.org/en/latest/manual/}.
+请参阅 Julia 最新版文档 \url{https://docs.julialang.org/} 
+\footnote{译注：亦可参考完善中的中文文档 \url{https://docs.juliacn.com/latest/}，但请以英文原文为准。} 以了解这些内容。
 
-\emph{The Julia Express} was tested using the following 64-bit Julia version:
+《 Julia 速览》 在以下 64 位版本的 Julia 下测试通过：
 \begin{lstlisting}
 versioninfo()
 # Julia Version 1.1.0
@@ -86,126 +93,136 @@ versioninfo()
 #   LLVM: libLLVM-6.0.1 (ORCJIT, skylake)
 \end{lstlisting}
 
-If you prefer to read this document in a different format than PDF then the simplest approach to do it is to
-clone the project repository \url{https://github.com/bkamins/The-Julia-Express} to your local folder and use
-Pandoc to perform an appropriate conversion. For instance running the command
+如你想使用 PDF 以外的格式阅读本文，其最简单的方法是克隆本项目
+\sloppy\url{https://github.com/zhaiyusci/The-Julia-Express-zh-CN}\footnote{译注：原文地址为 \url{https://github.com/bkamins/The-Julia-Express}。}
+至本地，
+使用 pandoc 转换格式。
+如执行
 \begin{lstlisting}
 pandoc -i julia_express.tex -f latex -t html5 -s -o julia_express.html
 \end{lstlisting}
-will produce you a HTML output.
+则输出 HTML 格式的文档。
 
-All suggestions how this guide can be improved are welcomed. Please contact me at \href{mailto:bkamins@sgh.waw.pl}{bkamins@sgh.waw.pl}.
+欢迎一切建设性建议，可用电子邮件联系作者 \href{mailto:bkamins@sgh.waw.pl}{bkamins@sgh.waw.pl}。
+\footnote{译注：如遇内容问题请联系作者，翻译问题请在 \href{https://github.com/zhaiyusci/The-Julia-Express-zh-CN/issues}{github issue} 中提出。}
 
-\section{Getting around}
+\section{概览}
 
-Running \lstinline|julia| invokes an interactive (REPL) mode. In this mode some useful commands are:
+运行 \lstinline|julia| 可打开交互模式（REPL）。此模式下有用的命令有：
 \begin{enumerate}[label=\arabic*),nolistsep]
-  \item \lstinline|^D| (exits Julia);
-  \item \lstinline|^C| (interrupts computations);
-  \item \lstinline|?| (enters help mode);
-  \item \lstinline|;| (enters system shell mode);
-  \item \lstinline|]| (enters package manager mode);
-  \item \lstinline|Ctrl-l| clears screen;
-  \item putting \lstinline|;| after the expression will disable showing its value in REPL (not needed in scripts).
+  \item \lstinline|^D| （退出 Julia ）；
+  \item \lstinline|^C| （中断计算）；
+  \item \lstinline|?| （进入帮助模式）；
+  \item \lstinline|;| （进入系统 shell 模式）；
+  \item \lstinline|]| （进入包管理模式）；
+  \item \lstinline|Ctrl-l| （清空屏幕）；
+  \item 表达式后接 \lstinline|;| 可停止其值输出到 REPL中[脚本（script）模式不需要]。
 \end{enumerate}
 
-Examples of some essential functions in the Julia REPL (they can be also invoked in scripts):
+Julia REPL 基本功能举例如下（亦可在脚本中使用）：
 \begin{lstlisting}
-  @edit max(1,2)      # show the definition of max function when invoked with arguments 1 and 2
-  varinfo()           # list of global variables and their types
-  cd("D:/")           # change working directory to D:/ (on Windows you can use /)
-  pwd()               # get current working directory
-  include("file.jl")  # execute source file
-  exit(1)             # exit Julia with code 1 (exit code 0 is used by default)
-  clipboard([1,2])    # copy data to system clipboard
-  clipboard()         # load data from system clipboard as a string
+  @edit max(1,2)      # 显示 max 函数当参数为 1, 2 时的定义
+  varinfo()           # 列出全局变量及其类型
+  cd("D:/")           # 将工作路径切换到 D:/ （在 Windows 下也可以用 / )
+  pwd()               # 获取当前工作路径
+  include("file.jl")  # 执行源文件
+  exit(1)             # 退出 Julia，返回码（exit code）为 1 （默认为 0）
+  clipboard([1,2])    # 将数据复制到系统剪贴板
+  clipboard()         # 以字符串（string）格式加载系统剪贴板中的数据
 \end{lstlisting}
 
-You can execute a Julia script from OS shell by running \lstinline|julia script.jl|.
+你可以在系统 shell 里通过 \lstinline|julia script.jl| 运行 Julia 脚本。
 
-Try saving the following example script to a file and run it (more examples of all the constructs used are given in following sections):
+将下列示例脚本保存至文件中并执行（在以后的章节中有更多例子）：
 \begin{lstlisting}
-"""Sieve of Eratosthenes function docstring"""
-function es(n::Int) # accepts one integer argument
-    isprime = trues(n) # n-element vector of true-s
-    isprime[1] = false # 1 is not a prime
-    for i in 2:isqrt(n) # loop integers less or equal than sqrt(n)
-        if isprime[i] # conditional evaluation
-            for j in i^2:i:n # sequence with step i
+"""Eratosthenes 筛法函数文档（ docstring ）"""
+function es(n::Int) # 接受一个整数类型参数
+    isprime = trues(n) # n 个元素的真（true）向量
+    isprime[1] = false # 1 不是质数
+    for i in 2:isqrt(n) # 在小于或等于 sqrt(n) 的整数中循环
+        if isprime[i] # 条件求值
+            for j in i^2:i:n # 步长为 i 的序列
                 isprime[j] = false
             end
         end
     end
-    return filter(x -> isprime[x], 1:n) # filter using an anonymous function
+    return filter(x -> isprime[x], 1:n) # 使用匿名函数筛选
 end
 
-println(es(100))         # print all primes less or equal than 100
-@time length(es(10^6))   # check function execution time and memory usage
+println(es(100))         # 打印小于或等于 100 的全部素数
+@time length(es(10^6))   # 核验函数执行时间与内存使用
 \end{lstlisting}
 
-\section{Basic literals and types}
-Basic scalar literals are the following:
+\section{基本字面值和类型}
+下列者为基本标量字面值：
 \begin{lstlisting}
-  1::Int               # 64 bit integer on 64 bit Julia, no overflow warnings
-  1.0::Float64         # 64 bit float, defines NaN, -Inf, Inf
-  true::Bool           # boolean, allows "true" and "false"
-  'c'::Char            # character, allows Unicode
-  "s"::AbstractString  # strings, allows Unicode, see also Strings below
+  1::Int               # 64 位 Julia 中的 64 位（bit）整数，无溢出警告
+  1.0::Float64         # 64 位浮点数，定义了 NaN, -Inf, Inf
+  true::Bool           # 布尔型，可以是 true 或 false
+  'c'::Char            # 字符，可以是 Unicode
+  "s"::AbstractString  # 抽象字符串，可以有 Unicode，参见下述字符串（String） 
 \end{lstlisting}
-The syntax \lstinline|x::Type| is a literal \lstinline|x| with type \lstinline|Type| assertion. In practice the type assertion is not needed. Here we use it only to show the type of each kind of a literal. All basic types listed above are immutable.
+语法 \lstinline|x::Type| 指字面值（literal） \lstinline|x| 且断言（assert）其为 \lstinline|Type| 类型。
+实务上说，类型断言并非必要，这里我们只是用它来指示每种字面值的类型。
+所有的基本类型都是不可变的（immutable）。
 
-Type assertions for variables are made in the same way and they can be useful to catch bugs in your code.
+以相同的方式可进行变量的类型断言，并可用于代码纠错。
 
-An important feature of integers in Julia is that by default they are 64 bit on 64 bit Julia and 32 bit on 32 bit Julia. This means that \lstinline|1::Int32| assertion will fail on 64-bit Julia. Notably \lstinline|Int| is a constant whose value is either \lstinline|Int64| or \lstinline|Int32| depending on version (the same with unsigned integer \lstinline|UInt|).
+Julia 中整数的重要特性是在 64 位 Julia 中是64位的，而在32位Julia 中是32位的。
+这意味着 \lstinline|1::Int32| 断言在 64位Julia中会报错。
+注意 \lstinline|Int| 是由 Julia 版本决定的常量，它要么是 \lstinline|Int64|，要么是 \lstinline|Int32|
+（无符号整数 \lstinline|UInt|也类似）。
 
-There is no automatic type conversion, unless some function explicitly performs it. This is especially important in function calls. The simplest way to perform the conversion of a value \lstinline|x| to type \lstinline|T| by writing \lstinline|T(x)|, for example:
+类型转换只能显式执行，没有自动类型转化。
+这在函数调用中及其重要。
+将 \lstinline|x| 转为 \lstinline|T| 类型的最简单方法是 \lstinline|T(x)|，如：
 \begin{lstlisting}
-  Int64('a')     # character to integer
-  Int64(2.0)     # float to integer
-  Int64(1.3)     # inexact error
-  Int64("a")     # error no conversion possible
-  Float64(1)     # integer to float
-  Bool(1)        # converts to boolean true
-  Bool(0)        # converts to boolean false
-  Bool(2)        # conversion error
-  Char(89)       # integer to char
-  string(true)   # cast Bool to string (works with other types, note small caps)
-  string(1,true) # string can take more than one argument and concatenate them
-  zero(10.0)     # zero of type of 10.0
-  one(Int64)     # one of type Int64
+  Int64('a')     # 字符到整数 （译注：结果为 97）
+  Int64(2.0)     # 浮点数到整数
+  Int64(1.3)     # 精度损失错误
+  Int64("a")     # 没有可用的转化错位
+  Float64(1)     # 整数到浮点数
+  Bool(1)        # 转换为 true
+  Bool(0)        # 转换为 false
+  Bool(2)        # 转换错误
+  Char(89)       # 整数到字符
+  string(true)   # 将布尔型转为字符串（也可用于转换其他类型，注意首字母小写）
+  string(1,true) # string 函数可以接收多个参数，并连接它们
+  zero(10.0)     # 10.0对应类型的“零”
+  one(Int64)     # Int64类型的“一”
 \end{lstlisting}
-General conversion can be done using \lstinline|convert(Type, x)| (typically \lstinline|convert| will not perform a copy if \lstinline|x| already has type \lstinline|Type|):
+广义的类型转换可由 \lstinline|convert(Type, x)|进行（一般当 \lstinline|x|已经是 \lstinline|Type|类型时， \lstinline|convert| 不再执行复制操作：
 \begin{lstlisting}
-  convert(Int64, 1.0) # convert float to integer
+  convert(Int64, 1.0) # 浮点数转为整数
 \end{lstlisting}
-Parsing strings can be done using \lstinline|parse(Type, str)|:
+字符串的文理分析可通过 \lstinline|parse(Type, str)| 完成：
 \begin{lstlisting}
-  parse(Int64, "1") # parse "1" string as Int64
+  parse(Int64, "1") # parse "1" string as Int64（译注：结果为 1::Int64 ）
 \end{lstlisting}
-Automatic promotion of many arguments to common type (if any exists) can be achieved using \lstinline|promote|:
+多个参数自动提升为相同类型（若可行）可用 \lstinline|promote| 达成：
 \begin{lstlisting}
-  promote(true, BigInt(1)//3, 1.0) # tuple (see Tuples) of BigFloats, true promoted to 1.0
-  promote("a", 1)                  # promotion to a common type is not possible
+  promote(true, BigInt(1)//3, 1.0) # BigFloat 类型元组（参见 Tuple） , true 转换为 1.0
+  promote("a", 1)                  # 无法提升相同类型
 \end{lstlisting}
-Many operations (arithmetic, assignment) are defined in a way that performs automatic type promotion (so this is a way to work around no automatic type conversion rule in Julia).
+许多操作（算术、赋值）是以进行自动类型提升进行的，故这是补足 Julia 没有类型自动转换规则的方法。
 
-One can verify type of a value in the following way:
+可通过如下方式查验值的类型：
 \begin{lstlisting}
-  typeof("abc")              # String returned which is a AbstractString subtype
+  typeof("abc")              # 返回 String， String是 AbstractString的子类型
   isa("abc", AbstractString) # true
-  isa(1, Float64)            # false, integer is not a float
+  isa(1, Float64)            # false, 整数不是浮点数
   isa(1.0, Float64)          # true
-  1.0 isa Number             # an alternative syntax; true, Number is abstract type
-  supertype(Int64)           # supertype of Int64
-  subtypes(Real)             # subtypes of abstract type Real
+  1.0 isa Number             # 另一种语法；true，Number （数）是一种抽象类型
+  supertype(Int64)           # Int64 的父类型
+  subtypes(Real)             # 抽象类型 Real 的子类型
 \end{lstlisting}
-It is possible to perform calculations using arbitrary precision arithmetic, complex and rational numbers:
+我们也可以进行任意精度的算术运算，以及复数和分数的运算：
 \begin{lstlisting}
-  BigInt(10)^1000   # big integer
-  BigFloat(10)^1000 # big float, see documentation how to change default precision
-  big(1.5)          # value of big type chosen appropriately, in this case BigFloat
-  1 + 1im           # a complex number
-  123//456          # rational numbers are created using // operator
+  BigInt(10)^1000   # 大整数
+  BigFloat(10)^1000 # 大浮点数，如需改变默认精度，可参考文档
+  big(1.5)          # 对应大数类型的值，在此例是 BigFloat
+  1 + 1im           # 复数
+  123//456          # 使用 // 算符写分数
 \end{lstlisting}
 
 \begin{figure}
@@ -235,176 +252,177 @@ It is possible to perform calculations using arbitrary precision arithmetic, com
         }
     };
 \end{tikzpicture}
-\caption{Hierarchy of numeric types\label{fig:numeric}}
+\caption{数值类型的层级结构\label{fig:numeric}}
 \end{figure}
 
-Type hierarchy of all standard numeric types is given in Figure \ref{fig:numeric}.
+全部标准数值类型的层级结构见图~\ref{fig:numeric}。
 
-\section{Special literals and types}
+\section{特殊字面值与类型}
 \begin{lstlisting}
-  Any     # all objects are of this type
-  Union{} # subtype of all types, no object can have this type
-  Nothing # type indicating nothing (absence of a value), a subtype of Any
-  nothing # only instance of Nothing
-  Missing # type indicating missing value (a value exists but is unknown), a subtype of Any
-  missing # only instance of Missing
+  Any     # 所有对象皆为此类型
+  Union{} # 所有类型的子类型，没有对象可以是该类型
+  Nothing # 表示无的类型（值不存在），是 Any 的子类型
+  nothing # Nothing 的唯一实例
+  Missing # 表示遗失的类型（值存在但不知道），是 Any 的子类型
+  missing # Missing 的唯一实例
 \end{lstlisting}
-Additionally \verb|#undef| indicates an incompletely initialized object element (see documentation for details).
+此外 \verb|undef| 表示尚未完成初始化的对象元素（细节参见文档）。
 
-\subsection{Tuples and NamedTuples}
-Tuples are immutable sequences indexed from 1:
+\subsection{元组与命名元组}
+元组（Tuple）是不可变的序列，其索引值（index）从 1 开始：
 \begin{lstlisting}
-  ()            # an empty tuple
-  (1,)          # a one element tuple
-  ("a", 1)      # a two element tuple
-  ('a', false)::Tuple{Char, Bool} # tuple type assertion
+  ()            # 空元组
+  (1,)          # 一个元素的元组
+  ("a", 1)      # 两个元素的元组
+  ('a', false)::Tuple{Char, Bool} #元组类型断言
   x = (1, 2, 3)
-  x[1]          # 1 (element)
-  x[1:2]        # (1, 2) (tuple)
-  x[4]          # bounds error
-  x[1] = 1      # error - a tuple is not mutable
-  a, b = x      # tuple unpacking a==1, b==2
+  x[1]          # 1 （元素）
+  x[1:2]        # (1, 2) （元组）
+  x[4]          # 边界错误
+  x[1] = 1      # 错误：元组是不可变的
+  a, b = x      # 元组解包（unpacking）， a==1, b==2
 \end{lstlisting}
-Additionally you can add names to tuple entries (via named tuples):
+此外你可以给元组的元素取名[通过命名元组（NamedTuple）]：
 \begin{lstlisting}
-  NamedTuple()  # an empty named tuple
-  (a=1,)        # a one element named tuple
-  (x="a", y=1)  # a two element named tuple
+  NamedTuple()  # 一个空的命名元组
+  (a=1,)        # 一个元素的命名元组
+  (x="a", y=1)  # 两个元素的命名元组
   x = (p=1, q=2, r=3)
-  x.p           # access to element p of a tuple
-  typeof(x)     # NamedTuple{(:p, :q, :r),Tuple{Int64,Int64,Int64}}, field names are part of type
+  x.p           # 访问元组的 p 元素
+  typeof(x)     # NamedTuple{(:p, :q, :r),Tuple{Int64,Int64,Int64}}，元素名是类型的一部分
 \end{lstlisting}
-Named tuple can be thought of as an anonymous \lstinline|struct| --- see composite types below (so they behave in a different way than tuples when testing for subtyping. This is an advanced topic that we do not cover in this introduction, see the Julia manual for the details \url{https://docs.julialang.org/en/latest/manual/types/}).
+命名元组可视为匿名 \lstinline|struct| ——参见下述复合类型（所以在测试子类型时它们和元组的行为不同
+这是本文不会涵盖的进阶主题，请参考 Julia 文档了解细节\sloppy   \url{https://docs.julialang.org/en/latest/manual/types/}）。
 
-\subsection{Arrays}
-Arrays are mutable and passed by reference.
+\subsection{数组}
+数组（Array）是可变的序列，且按引用传递。
 
-Useful array creation functions are the following:
+可用以下函数创建数组：
 \begin{lstlisting}
-  Array{Char}(undef, 2, 3, 4) # uninitialized 2x3x4 array of Chars
-  Array{Int64}(undef, 0, 0)   # degenerate 0x0 array of Int64
-  zeros(5)             # vector of Float64 zeros
-  ones(5)              # vector of Float64 ones
-  ones(Int64, 2, 1)    # 2x1 array of Int64 ones
-  trues(3), falses(3)  # a tuple of a vector of trues and a vector of falses
-  Matrix(I, 3, 3)      # 3x3 Bool identity matrix, requires to run first: using LinearAlgebra
-  x = range(0, stop=1, length=11) # an iterator having 11 equally spaced elements
-  collect(x)           # converts an iterator to vector
-  1:10                 # iterable from 1 to 10
-  1:2:10               # iterable from 1 to 9 with 2 skip
-  reshape(1:12, 3, 4)  # a 3x4 matrix like object filled columnwise with values from 1 to 12
-  fill("a", 2, 2)      # a 2x2 array filled with "a"
-  repeat(rand(2,2), 3, 2) # a 2x2 random matrix repeated 3x2 times
-  x = [1, 2]           # a two element vector
-  resize!(x, 5)        # resize x in place to hold 5 values (filled with garbage)
-  [1]                  # a vector with one element (not a scalar)
-  [x * y for x in 1:2, y in 1:3] # a comprehension generating 2x3 array
-  Float64[x^2 for x in 1:4] # casting comprehension result element type to Float64
-  [1 2]                # 1x2 matrix (hcat function)
-  [1 2]'               # 2x1 Adjoint matrix (reuses memory)
-  permutedims([1 2])   # 2x1 matrix (permuted dimensions, new memory)
-  [1, 2]               # vector (concatenation)
-  [1; 2]               # vector (vcat function)
-  [1 2 3; 1 2 3]       # 2x3 matrix (hvcat function)
-  [1; 2] == [1 2]'     # false, different array dimensions
-  hcat(1:2)==[1 2]'    # true, dimensions match
-  [(1, 2)]             # 1-element vector
-  collect((1, 2))      # 2-element vector by tuple unpacking
-  [[1 2] 3]            # concatenate along rows (hcat)
-  [[1; 2]; 3]          # concatenate along columns (vcat)
-  tuple([1,2,3])       # a 1-element tuple containing a vector
-  Tuple([1,2,3])       # a 3-element tuple unpacking a vector
+  Array{Char}(undef, 2, 3, 4) # 未初始化的 2x3x4 Char 类型数组
+  Array{Int64}(undef, 0, 0)   # 退化的 0x0 Int64 类型数组
+  zeros(5)             # Float64 类型的“零”构成的矢量
+  ones(5)              # Float64 类型的“一”构成的矢量
+  ones(Int64, 2, 1)    # Int64 类型的“一”构成的 2x1 数组
+  trues(3), falses(3)  # 由true构成的矢量和false构成的矢量所构成的元组
+  Matrix(I, 3, 3)      # 3x3 Bool 类型单位矩阵，需要先执行 using LinearAlgebra
+  x = range(0, stop=1, length=11) # 有 11 个等间隔元素的迭代器（iterator）
+  collect(x)           # 把迭代器转化为矢量
+  1:10                 # 由 1 迭代至 10
+  1:2:10               # 由 1 迭代至 9, 间隔为 2
+  reshape(1:12, 3, 4)  # 3x4 类矩阵对象，逐列填充1到12
+  fill("a", 2, 2)      # 2x2 数组，填充 "a"
+  repeat(rand(2,2), 3, 2) # 2x2 随机矩阵，重复 3x2 次
+  x = [1, 2]           # 两元素的矢量
+  resize!(x, 5)        # 原位（in place）改变 x 的 尺寸，使之可以放 5 个值（用垃圾填充）
+  [1]                  # 有一个元素的矢量（并非标量）
+  [x * y for x in 1:2, y in 1:3] # 推导生成 2x3 矩阵
+  Float64[x^2 for x in 1:4] # 将推导结果元素类型转换为 Float64
+  [1 2]                # 1x2 矩阵（hcat 函数）
+  [1 2]'               # 2x1 共轭矩阵（重复使用内存）
+  permutedims([1 2])   # 2x1 矩阵（交换维度，新开内存）
+  [1, 2]               # 矢量（连接） (concatenation)
+  [1; 2]               # 矢量（vcat 函数）
+  [1 2 3; 1 2 3]       # 2x3 矩阵（hvcat 函数）
+  [1; 2] == [1 2]'     # false，数组维度不同
+  hcat(1:2)==[1 2]'    # true，数组维度一致
+  [(1, 2)]             # 一个元素的矢量
+  collect((1, 2))      # 两个元素的矢量，通过解包元组得到
+  [[1 2] 3]            # 按行连接（hcat）
+  [[1; 2]; 3]          # 按列连接（vcat）
+  tuple([1,2,3])       # 包含一个矢量的元组
+  Tuple([1,2,3])       # 解包矢量构成的三个元素的元组
 \end{lstlisting}
-Vectors (1D arrays) are treated as column vectors.
+矢量（一维数组）是列矢量。
 
-Most of the functionality for working with matrices are in \lstinline|LinearAlgebra| package.
-Additionally Julia offers sparse and distributed matrices (see the documentation for details).
+处理矩阵的大多数功能都在 \lstinline|LinearAlgebra| 包里。
+此外，Julia 支持稀疏矩阵和分布矩阵（详见文档）。
 
-Commonly needed array utility functions:
+常用数组函数有：
 \begin{lstlisting}
-  a = [x * y for x in 1:2, y in 1, z in 1:3] # 2x3 array of Int64; a singleton dimension is dropped
-  a = [x * y for x in 1:2, y in 1:1, z in 1:3] # 2x1x3 array of Int64; a singleton dimension is not dropped
-  ndims(a)             # number of dimensions in a
-  eltype(a)            # type of elements in a
-  length(a)            # number of elements in a
-  size(a)              # a tuple containing dimension sizes of a
-  axes(a)              # a tuple of ranges specifying array axes
-  eachindex(a)         # each index to an array a
-  CartesianIndices(a)  # a lazy iterator over Cartesian indices into a
-  LinearIndices(a)     # a lazy iterator over linear indices into a
-  vec(a)               # cast an array to vector (single dimension)
-  dropdims(a, dims=2)  # remove the 2nd dimension as it has length 1
-  sum(a, dims=3)       # calculate sums for 3rd dimensions, similarly: mean, std,
+  a = [x * y for x in 1:2, y in 1, z in 1:3] # 2x3 的 Int64 类型数组；长度为1的（singleton）维度被约化
+  a = [x * y for x in 1:2, y in 1:1, z in 1:3] # 2x1x3 的 Int64 类型数组；长度为1的维度未被约化
+  ndims(a)             # a 的维度
+  eltype(a)            # a 中元素的类型
+  length(a)            # a 中元素数目
+  size(a)              # a 每一维度的大小所构成的元组
+  axes(a)              # 数组索引范围（range）所构成的元组（译注：此处按文档重写）
+  eachindex(a)         # 创建一个以最优方式访问 a 的可迭代对象（译注：此处按文档重写）
+  CartesianIndices(a)  # 访问 a 的多维索引构成的数组（译注：此处按文档重写）
+  LinearIndices(a)     # 访问 a 的一维索引构成的数组（译注：此处按文档重写）
+  vec(a)               # 将一个数组转换为矢量（一维）
+  dropdims(a, dims=2)  # 当 a 的第二维长度为1时，约去该维度
+  sum(a, dims=3)       # 对第三维求和，相似地，该用法可以用于以下函数： mean, std,
                        # prod, minimum, maximum, any, all
-  count(x -> x > 0, a) # count number of times a predicate is true, similar: all, any
+  count(x -> x > 0, a) # 计算符合条件的元素出现的次数；类似地，可用于 all, any
 \end{lstlisting}
 
-Access functions:
+访问函数：
 \begin{lstlisting}
-  a = 0:0.01:1         # range with step 0.01
-  a[1]                 # get scalar 0.0
-  a[end]               # get scalar 1.0 (last position)
-  a[1:2:end]           # every second element from range
-  view(a, 1:2:101)     # a view into a (a subarray of a)
-  a[[1, 3, 6]]         # 1st, 3rd and 6th element of a, Array{Float64,1}
-  lastindex(a)         # last index of the collection a; similarly firstindex
+  a = 0:0.01:1         # 以0.01为间隔的区间
+  a[1]                 # 标量 0.0
+  a[end]               # 标量 1.0 （最后一个元素）
+  a[1:2:end]           # 区间中隔一个元素取一个
+  view(a, 1:2:101)     # a 的 一个视角（view）（a 的一个子数组）（译注：对 view 的结果的操作会影响 a 本身）
+  a[[1, 3, 6]]         # 将 a 视为 Array{Float64,1} 时的第1、3、6个元素
+  lastindex(a)         # a 的最后一个 索引；firstindex 亦有类似用法 
 \end{lstlisting}
 
-Observe the treatment of singleton dimensions:
+长度为1的维度的处理：
 \begin{lstlisting}
   a = reshape(1:12, 3, 4)
-  a[:, 1:2]          # 3x2 matrix
-  a[:, 1]            # 3 element vector
-  a[1, :]            # 4 element vector
-  a[1:1, :]          # 1x4 matrix
-  a[:, :, 1, 1]      # works 3x4 matrix
-  a[:, :, :, [true]] # works 3x4x1x1 matrix
-  a[1, 1, [false]]   # works 0-element Array{Int64,1}
+  a[:, 1:2]          # 3x2 矩阵
+  a[:, 1]            # 3 个元素的矢量
+  a[1, :]            # 4 个元素的矢量
+  a[1:1, :]          # 1x4 矩阵
+  a[:, :, 1, 1]      # 正确，3x4 矩阵
+  a[:, :, :, [true]] # 正确，3x4x1x1 矩阵
+  a[1, 1, [false]]   # 正确，0 个元素的 Array{Int64,1}
 \end{lstlisting}
 
-Array assignment:
+数组元素赋值：
 \begin{lstlisting}
   x = collect(reshape(1:8, 2, 4))
-  x[:,2:3] = [1 2]            # error; size mismatch
-  x[:,2:3] .= [1 2]           # OK, broadcasting with .
-  x[:,2:3] = repeat([1 2], 2) # OK
-  x[:,2:3] .= 3               # OK, need to use broadcast with .
+  x[:,2:3] = [1 2]            # 错误；大小不一致
+  x[:,2:3] .= [1 2]           # 正确，使用 . 广播
+  x[:,2:3] = repeat([1 2], 2) # 正确
+  x[:,2:3] .= 3               # 正确，需要使用 . 广播
 \end{lstlisting}
 
-Arrays are assigned and passed by reference. Therefore copying is provided:
+数组是按引用（reference）赋值和传递的，故特别提供复制功能：
 \begin{lstlisting}
   x = Array{Any}(undef, 2)
   x[1] = ones(2)
   x[2] = trues(3)
   a = x
-  b = copy(x)     # shallow copy
-  c = deepcopy(x) # deep copy
+  b = copy(x)     # 浅层复制
+  c = deepcopy(x) # 深层复制
   x[1] = "Bang"
   x[2][1] = false
-  a               # identical as x
-  b               # only x[2][1] changed from the original x
-  c               # contents of the original x
+  a               # 与现在的 x 一模一样
+  b               # 与原来的 x 相比，仅 x[2][1] 改变
+  c               # 原来的 x 的内容
 \end{lstlisting}
 
-Array types syntax examples:
+数组类型语法的例子：
 \begin{lstlisting}
-  [1 2]::Array{Int64, 2}      # 2 dimensional array of Int64
-  [true; false]::Vector{Bool} # vector of Bool
-  [1 2; 3 4]::Matrix{Int64}   # matrix of Int64
+  [1 2]::Array{Int64, 2}      # Int64 类型的 2 维数组
+  [true; false]::Vector{Bool} # Bool 类型的矢量
+  [1 2; 3 4]::Matrix{Int64}   # Int64 类型的矩阵
 \end{lstlisting}
 
-Numbers are treated as 0-dimensional containers:
+数被视为 0 维容器：
 \begin{lstlisting}
-  x = 10   # an integer
-  x[]      # returns 10
-  x[1,1]   # also returns 10, as trailing 1-s are ignored by Julia
-  size(x)  # an empty tuple
-  x = [10] # a one element array can be also indexed with []
-  x[]      # gets you 10, this will only work for arrays with exactly 1 element
+  x = 10   # 整数
+  x[]      # 返回 10
+  x[1,1]   # 也返回 10，末尾的 1被 Julia 忽略
+  size(x)  # 空元组
+  x = [10] # 一个元素的数组，可以用 [ ] 索引
+  x[]      # 返回 10，这种用法仅在数组只有一个元素时可以奏效
 \end{lstlisting}
 
-\subsection{Composite types}
-You can define and access composite types. Here is an example of a mutable composite type:
+\subsection{复合类型}
+你可以定义、访问复合类型。以下是可变（mutable）复合类型的一个实例：
 \begin{lstlisting}
   mutable struct Point
     x::Int64
@@ -412,143 +430,144 @@ You can define and access composite types. Here is an example of a mutable compo
     meta
   end
   p = Point(0, 0.0, "Origin")
-  p.x               # access field
-  p.meta = 2        # change field value
-  p.x = 1.5         # error, wrong data type
-  p.z = 1           # error - no such field
-  fieldnames(Point) # get names of type fields
+  p.x               # 访问域
+  p.meta = 2        # 改变域的值
+  p.x = 1.5         # 错误，数据类型不匹配
+  p.z = 1           # 错误，没有这个域
+  fieldnames(Point) # 获取所有的域名
 \end{lstlisting}
 
-Similarly you can define some type to be immutable by removing \lstinline|mutable| keyword (named tuples are anonymous immutable structs).
+类似地，你可以通过删除\lstinline|mutable| 关键字来定义不可变复合类型（命名元组是匿名的不可变struct）。 
 
-There are also union types (see documentation of \emph{Type Unions} in the Julia manual for details).
+Julia 也支持联合（union）类型（详见 Julia 手册中 Type Unions 相关章节）。
 
-Finally you can define that your type is a subtype of an abstract type to properly position it in the type hierarchy, or even define your own abstract types (see documentation of \emph{Abstract Types} in the Julia manual for details).
+最后你可以将你的类型定义为某抽象类型的子类型以将其适当的放在类型层级树中，你甚至可以定义自己的抽象类型（详见详见 Julia 手册中 Abstract Types 相关章节）。
 
-\subsection{Dictionaries}
-Associative collections (key-value dictionaries):
+\subsection{字典}
+字典（Dict）是一种关联容器[键（key）-值（value）字典]：
 \begin{lstlisting}
-  x = Dict{Float64, Int64}()        # an empty dictionary mapping floats to integers
-  y = Dict("a"=>1, "b"=>2)          # a filled dictionary
-  y["a"]                            # element retrieval
-  y["c"]                            # error
-  y["c"] = 3                        # added element
-  haskey(y, "b")                    # check if y contains key "b"
-  keys(y), values(y)                # tuple of collections returning keys and values in y
-  delete!(y, "b")                   # delete a key from a collection, see also: pop!
-  get(y,"c","default")              # return y["c"] or "default" if not haskey(y,"c")
+  x = Dict{Float64, Int64}()        # 将浮点数映射（map）为整数的空字典
+  y = Dict("a"=>1, "b"=>2)          # 非空字典
+  y["a"]                            # 访问元素
+  y["c"]                            # 错误
+  y["c"] = 3                        # 添加元素
+  haskey(y, "b")                    # 检查 y 是否有 "b" 键
+  keys(y), values(y)                # y 中的键和值
+  delete!(y, "b")                   # 从字典中删除一个键，参见 pop!
+  get(y,"c","default")              # 返回 y["c"]，如果y["c"]不存在，返回 "default"
 \end{lstlisting}
-Julia also supports operations on sets, created similarly with \lstinline|Set| constructor (please refer to the documentation for details).
+Julia 也支持集合（set），相似的用 \lstinline|Set| 可以构造集合（详见 Julia 文档）。
 
-\section{Strings}
-String operations:
+\section{字符串}
+字符串（string）操作有：
 \begin{lstlisting}
-  "Hi " * "there!"       # string concatenation
-  "Ho " ^ 3              # repeat string
-  string("a = ", 123.3)  # create using print function
-  repr(123.3)            # fetch value of show function to a string
-  occursin("CD", "ABCD") # check if first string contains second
-  "\"\n\t\$"             # C-like escaping in strings, new \$ escape
+  "Hi " * "there!"       # 字符串连接
+  "Ho " ^ 3              # 重复字符串
+  string("a = ", 123.3)  # 使用打印方式构造
+  repr(123.3)            # 返回show函数的输出
+  occursin("CD", "ABCD") # 检查第一个字符串是否包含于第二个中（译注：原文有误）
+  "\"\n\t\$"             # C 语言风格的转义（escaping）字符串（注意 \$ 的转义）
   x = 123
-  "$x + 3 = $(x+3)"      # unescaped $ is used for interpolation
-  "\$199"                # to get a $ symbol you must escape it
-  raw"D:\path"           # a raw string literal; useful for paths under Windows
-  s = "abc"              # a string of type String
-  chop(s)                # remove last character from s, returns a SubString
+  "$x + 3 = $(x+3)"      # 没有转义的 $ 用来原位求值（interpolation）
+  "\$199"                # 要表示 $ 符号，你必须转义
+  raw"D:\path"           # 原始（raw）字符串字面值，在表示 Windows 下的路径很有用
+  s = "abc"              # 类型为 String 的字符串
+  chop(s)                # 删除 s 的最后一个字符，返回一 SubString
 \end{lstlisting}
 
-Both \lstinline|String| and \lstinline|SubString| are subtypes of \lstinline|AbstractString|.
-The  \lstinline|SubString| type is used to avoid copying of strings. Usually, when writing your own code,
-it is best to assume that the user will pass an arbitrary \lstinline|AbstractString|.
+\lstinline|String| 和 \lstinline|SubString| 皆为 \lstinline|AbstractString| 的子类型。
+\lstinline|SubString| 可避免复制字符串。
+通常，当写自己的程序时，最键实践是假设用户会使用 \lstinline|AbstractString|。
 
-PCRE regular expressions handling:
+与 Perl 兼容的（PCRE） 正则表达式处理：
 \begin{lstlisting}
-  r = r"A|B"           # create new regexp
-  occursin(r, "CD")    # false, no match found
-  m = match(r, "ACBD") # find first regexp match, see the documentation for details
+  r = r"A|B"           # 创建新的正则表达式
+  occursin(r, "CD")    # false，不匹配
+  m = match(r, "ACBD") # 找到第一处正则表达式匹配，详见 Julia 文档
 \end{lstlisting}
 
-There is a vast number of string functions --- please refer to the documentation.
+还有很多字符串函数——详见 Julia 文档。
 
-Warning! Note that you can index-into a string, e.g. \lstinline|"abc"[1]| will return you a character \lstinline|'a'|. However, in general Julia encodes standard strings using UTF-8 and indexing is based on bytes not characters, so correct string indexing requires you to understand how UTF-8 encoding works. See the documentation for details.
+警告！你可以用索引字符串，例如 \lstinline|"abc"[1]| 会返回字符 \lstinline|'a'|。
+然而，Julia 是用 UTF-8 来编码标准字符串的，而索引是按字节而不是字符，所以你需要理解UTF-8编码才能正确地索引。详见 Julia 文档。
 
-\section{Programming constructs}
-The simplest way to bind a value to a new variable is by an assignment:
+\section{程序结构}
+将值联系到变量上的最简单方法是赋值：
 \begin{lstlisting}
-  x = 1.0          # x is bound to Float64 value
-  x = 1            # now x is bound to value Int32 on 32 bit machine and Int64 on 64 bit machine
+  x = 1.0          # x 指向一个 Float64 的值
+  x = 1            # 现在 x 指向了 Int32 或 Int64 的值（取决于机器）
 \end{lstlisting}
 
-Expressions can be compound using \lstinline|;| or \lstinline|begin end| block:
+表达式可以用 \lstinline|;| 或者 \lstinline|begin end| 块结合在一起：
 \begin{lstlisting}
-  x = (a = 1; 2 * a) # after: x = 2; a = 1
+  x = (a = 1; 2 * a) # 此后  x = 2; a = 1
   y = begin
     b = 3
     3 * b
-  end              # after: y = 9; b = 3
+  end              # 此后 y = 9; b = 3
 \end{lstlisting}
 
-There are standard programming constructs:
+标准的程序结构有：
 \begin{lstlisting}
-  if false    # if clause requires Bool test
+  if false    # if 从句需要 Bool 测试
       z = 1
   elseif 1 == 2
       z = 2
   else
       a = 3
-  end         # after this a = 3 and z is undefined
+  end         # 此后 a = 3，z 未定义
 
-  1==2 ? "A" : "B" # standard ternary operator
+  1==2 ? "A" : "B" # 标准三元操作符
 
   i = 1
   while true
-      global i += 1 # global would not be needed if the loop were inside a function
+      global i += 1 # 如果循环在函数内部，则不需要 global
       if i > 10
         break
       end
   end
 
-  for x in 1:10    # x in collection, can also use = here instead of in
+  for x in 1:10    # x 在区间中，这里可以用 = 代替 in
       if 3 < x < 6
-          continue # skip one iteration
+          continue # 跳过一次迭代
       end
       println(x)
-  end              # x is defined in the inner scope of the loop
+  end              # x 在此循环的内部作用域被定义
 \end{lstlisting}
 
-You can define your own functions:
+你可以定义自己的函数（function）：
 \begin{lstlisting}
-  f(x, y = 10) = x + y           # one line definition of a new function f with y defaulting to 10
-                                 # last expression result returned
-  function f(x, y=10)            # the same as above but allowing multiple expressions
-      x + y                      # in the body of the function
+  f(x, y = 10) = x + y           # 新函数 f 的单行定义，y 默认值是 10
+                                 # 返回最后一个表达式的结果
+  function f(x, y=10)            # 和上面一样，但允许多个表达式
+      x + y                      # 在函数体内
   end
-  f(3, 2)                        # a simple call, 5 returned
-  f(3)                           # 13 returned
-  (x -> x^2)(3)                  # an anonymous function with a call example
-  () -> 0                        # an anonymous function with no arguments
-  h(x...) = sum(x)/length(x) - mean(x) # a vararg function; x is a tuple
-  h(1, 2, 3)                     # the result is 0
-  x = (2, 3)                     # a tuple
-  f(x)                           # error
-  f(x...)                        # OK - tuple unpacking
-  s(x; a = 1, b = 1) = x * a / b # function with keyword arguments a and b
-  s(3, b = 2)                    # call with a keyword argument
-  q(f::Function, x) = 2 * f(x)   # a function can be passed around; here we require that f is a Function
-  q(x -> 2x, 10)                 # 40 returned, no need to use * in 2x (means 2*x)
-  q(10) do x                     # creation of an anonymous function by do construct, useful eg. in IO
+  f(3, 2)                        # 简单的调用，返回 5
+  f(3)                           # 返回 13
+  (x -> x^2)(3)                  # 匿名函数的调用
+  () -> 0                        # 没有参数的匿名函数
+  h(x...) = sum(x)/length(x) - mean(x) # 可变参数的函数；x是u元组
+  h(1, 2, 3)                     # 结果为 0
+  x = (2, 3)                     # 元组
+  f(x)                           # 错误
+  f(x...)                        # 正确，元组解包
+  s(x; a = 1, b = 1) = x * a / b # 有关键词参数 a 和 b 的函数
+  s(3, b = 2)                    # 带关键词参数的调用
+  q(f::Function, x) = 2 * f(x)   # 函数可以当作参数传递；这里我们要求 f 是一个函数
+  q(x -> 2x, 10)                 # 返回 40，不必在 2x 中间写乘号（代表 2*x）
+  q(10) do x                     # 通过 do 结构创建匿名函数，例如在输入输出有用
     2 * x
   end
   m = reshape(1:12, 3, 4)
-  map(x -> x ^ 2, m)             # 3x4 array returned with transformed data
-  filter(x -> bitstring(x)[end] == '0', 1:12)  # a fancy way to choose even integers from the range
-  ==(1)                          # returns a function that tests for equality to 1
-  findall(==(1), 1:10)           # find indices of all elements equal to 1, similar: findfirst, findlast
+  map(x -> x ^ 2, m)             # 包含转换过数据的 3x4 数组
+  filter(x -> bitstring(x)[end] == '0', 1:12)  # 在区间里筛选偶数的亮眼方法
+  ==(1)                          # 返回一个检查是否等于1的函数
+  findall(==(1), 1:10)           # 找到所有等于 1 的元素的索引，相似地：findfirst, findlast
 \end{lstlisting}
 
-As a convention functions with name ending with \lstinline|!| change their arguments in-place. See for example \lstinline|resize!| in this document.
+习惯上以 \lstinline|!| 结尾地函数会原位修改其参数。参见本文档中的 \lstinline|resize!|。
 
-Default function arguments are evaluated left to right:
+默认函数参数自左向右求值：
 \begin{lstlisting}
   y = 10
   f1(x=y) = x; f1()      # 10
@@ -559,41 +578,44 @@ Default function arguments are evaluated left to right:
   f6(;y=1,x=y) = x; f6() # 1
 \end{lstlisting}
 
-There is an important part of Julia terminology is that a \emph{function} can have multiple \emph{methods}. Each method specifies a behavior of a function for a given set of argument types. This behavior is called multiple dispatch and works only for positional arguments. Here are some short examples. More details are given in \emph{Methods} section of the Julia manual.
+Julia 中\textsf{函数}可以有多个\textsf{方法}（method）。
+每个方法对应函数的一组参数类型。
+这种行为叫多重派发（multiple dispatch）并且只对位置（positional）参数有效。
+以下是一些简短的例子。详见 Julia 的 Methods 章节。
 \begin{lstlisting}
-  g(x, y) = println("all accepted") # method for g function accepting any type of x and y
-  function g(x::Int, y::Int)        # method called when both x and y are Int
+  g(x, y) = println("all accepted") # g 函数接收任何类型 x 和 y 的方法
+  function g(x::Int, y::Int)        # 当 x 和 y 均为 Int 型调用的方法
     y, x
   end
-  g(x::Int, y::Bool) = x * y        # this will be called when x is Int and y is Bool
-  g(1.0, 1)                         # the first definition is invoked
-  g(1, 1)                           # the second definition is invoked
-  g(1, true)                        # the third definition is invoked
-  methods(g)                        # list all methods defined for g
-  t(; x::Int64 = 2) = x             # a single keyword argument
-  t()                               # 2 returned
-  t(; x::Bool = true) = x           # no multiple dispatch for keyword arguments; function overwritten
-  t()                               # true; old function was overwritten
+  g(x::Int, y::Bool) = x * y        # 当 x 为 Int，y 为 Bool 时的方法
+  g(1.0, 1)                         # 第一个定义被调用
+  g(1, 1)                           # 第二个定义被调用
+  g(1, true)                        # 第三个定义被调用
+  methods(g)                        # 列出 g 的所有方法
+  t(; x::Int64 = 2) = x             # 单个关键词参数
+  t()                               # 返回 2
+  t(; x::Bool = true) = x           # 没有对关键词参数的多重派发，函数定义被覆盖
+  t()                               # true；旧函数被覆盖
 \end{lstlisting}
 
-\section{Variable scoping}
-The following constructs introduce a new variable scope:
-\lstinline|function|, \lstinline|while|,
-\lstinline|for|, \lstinline|try/catch|,
-\lstinline|let|, \lstinline|struct|, \lstinline|mutable struct|.
+\section{变量作用域}
+以下结构创建新的变量作用域（variable scope）：
+\lstinline|function|、\lstinline|while|、
+\lstinline|for|、\lstinline|try/catch|、
+\lstinline|let|、\lstinline|struct|、\lstinline|mutable struct|。
 
-You can define variables as:
+你可以将变量定义为：
 \begin{itemize}
-  \item \lstinline|global|: use variable from a global scope of the current module;
-  \item \lstinline|local|: define a new variable in a current scope;
-  \item \lstinline|const|: ensure variable type is constant (global only).
+  \item \lstinline|global|：在当前模块的全局作用域使用变量；
+  \item \lstinline|local|: 在当前作用域定义新变量；
+  \item \lstinline|const|: 确保变量类型是常量（仅全局）。
 \end{itemize}
 
-Special cases:
+特殊情况：
 \begin{lstlisting}
-  t                  # error, a variable t does not exist
+  t                  # 错误，变量 t 不存在
   f() = global t = 1
-  f()                # after the call t is defined globally
+  f()                # 调用后 t 在全局作用域被定义
 
   function f1(n)
     x = 0
@@ -602,7 +624,7 @@ Special cases:
     end
     x
   end
-  f1(10)            # 10; inside the loop we use the outer local variable
+  f1(10)            # 10；在循环内我们使用了外部局域变量
 
   function f2(n)
     x = 0
@@ -612,7 +634,7 @@ Special cases:
     end
     x
   end
-  f2(10)            # 0; inside loop we use new local variable
+  f2(10)            # 0；在循环内我们使用了新的局域变量
 
   function f3(n)
     for i = 1:n
@@ -620,20 +642,20 @@ Special cases:
     end
     h
   end
-  f3(10)            # error; h not defined in outer scope
+  f3(10)            # 错误；h 在外部作用域未定义
 
   const x = 2
-  x = 3 # warning, value changed
-  x = 3.0 # error, wrong type
+  x = 3 # 警告，常量的值被改变
+  x = 3.0 # 错误，类型错误
 
   function f()
       x::Int = 1
-      x = 2.5 # error will be thrown when f() is called as x has to have type Int
+      x = 2.5 # 当调用 f() 时会报错，因为 x 必须是 Int
   end
 \end{lstlisting}
-Global constants speed up code execution as the compiler knows their type.
+全局常量会加速代码执行，因为编译器知道其类型。
 
-Loops and comprehensions rebind variables on each iteration, so they are safe to use then creating closures in iteration:
+循环和推导在每次迭代时都重新给变量赋值，故可以安全地在迭代中用他们创造闭包（closure）：
 \begin{lstlisting}
   Fs = Array{Any}(undef, 2)
   for i in 1:2
@@ -642,87 +664,87 @@ Loops and comprehensions rebind variables on each iteration, so they are safe to
   Fs[1](), Fs[2]() # (1, 2)
 \end{lstlisting}
 
-\section{Modules}
-Modules encapsulate code and each module has its own global name space (module name of Julia REPL is \lstinline|Main|).
+\section{模块}
+模块（module）将代码封装起来，每个模块有他们自己的全局命名空间（Julia REPL 的模块名是 \lstinline|Main|）。
 \begin{lstlisting}
-  module M # module name
-  export x # what module exposes for the world
+  module M # 模块名
+  export x # 模块向外界所暴露的
   x = 1
-  y = 2 # hidden variable
+  y = 2 # 隐藏变量
   end
 
-  varinfo(M) # list exported variables
-  x       # not found in global scope
-  M.y     # direct variable access possible
+  varinfo(M) # 列出导出的变量
+  x       # 在全局作用域中找不到
+  M.y     # 可以直接访问变量
 
-  # import all exported variables
-  # also load standard packages this way, but without . prefix
+  # 导入所有导出的变量
+  # 也可以用此法加载标准包，但不需要 . 前缀
   using .M
 
-  #import variable y to global scope (even if not exported)
+  # 将 y 导入全局作用域 （即使其没有被导出）
   import .M.y
 \end{lstlisting}
-Rebinding values of variables defined in other modules is not allowed. Here is a short typical example that often surprises people:
+给其他模块中的变量绑定值是不可以的。如下是常常让人们惊讶的经典小例子：
 \begin{lstlisting}
-  sin(1) # works
-  sin = 1 # fails in module Main you cannot rebind a value defined in module Base
-  cos = 1 # works, as cos was not called yet so it was not imported from Base into Main
-  cos # returns 1
-  cos(1) # fails - cos is bound to 1 in the module Main
-  Base.cos(1) # works
+  sin(1) # 成功
+  sin = 1 # 失败，在模块 Main 里你不能给模块 Base 里的变量绑定值
+  cos = 1 # 成功，因为cos还没有被调用，故还没有从 Base 导入到 Main
+  cos # 返回 1
+  cos(1) # 失败，cos 在 Main 模块绑定了 1
+  Base.cos(1) # 成功
 \end{lstlisting}
 
-\section{Operators}
-Julia follows standard operators with the following quirks:
+\section{操作符}
+Julia 使用标准的操作符，而有如下的小技巧：
 \begin{lstlisting}
-  true || false    # binary or operator (singletons only), || and && use short-circut evaluation
-  [1 2] .& [2 1]   # bitwise and operator (vectorized by .)
-  1 < 2 < 3        # chaining conditions is OK (singletons only without .)
-  [1 2] .< [2 1]   # for vectorized operators need to add '.' in front
+  true || false    # 二元或算符（仅单元素使用），|| 和 && 采短路求值
+  [1 2] .& [2 1]   # 逐位（bitwise）与算符 [以 . 向量化（vectorize）]
+  1 < 2 < 3        # 支持连锁条件（chaining conditions）（仅单元素使用，不可用 . 向量化）
+  [1 2] .< [2 1]   # 向量化的操作符需要前缀 .
   x = [1 2 3]
-  2x + 2(x .+ 1)   # multiplication can be omitted between a literal and a variable or a left parenthesis
+  2x + 2(x .+ 1)   # 字面值和变量间的乘号及字面值或变量与左括号间的乘号可省略
   y = [1, 2, 3]
-  x + y  # an error
-  x .+ y # a 3x3 matrix, dimension broadcasting
-  x + y' # a 1x3 matrix
-  x * y  # array multiplication, a 1-element vector (not scalar)
-  x .* y # element-wise multiplication, a 3x3 array
+  x + y  # 错误
+  x .+ y # 3x3 矩阵，维度广播（broadcasting）
+  x + y' # 1x3 矩阵
+  x * y  # 数组乘法，单元素矢量（不是标量）
+  x .* y # 逐元素（element-wise）乘法，3x3 数组
 
-  x == [1 2 3]  # true, object looks the same
-  x === [1 2 3] # false, objects not identical
+  x == [1 2 3]  # true，对象值一样
+  x === [1 2 3] # false，对象并非同一
 
   z = reshape(1:9, 3, 3)
-  z + x  # error
-  z .+ x # x broadcasted vertically
-  z .+ y # y broadcasted horizontally
+  z + x  # 错误
+  z .+ x # x 纵向广播
+  z .+ y # y 横向广播
 
-  # an explicit broadcast of singleton dimensions
-  # function + is called for each array element
+  # 长度为1的维度的显式广播
+  # 对每一个数组元素，函数 + 都被调用
   broadcast(+, [1 2], [1; 2])
-  # broadcasting using . operator
+  # 使用 . 操作符广播
   using Random
-  length([randstring(10) for i in 1:5]) # 5 - length of an array
-  length.([randstring(10) for i in 1:5]) # 5-element array of 10s - lengths of strings
+  length([randstring(10) for i in 1:5]) # 5：数组的长度
+  length.([randstring(10) for i in 1:5]) # 由 10 构成的 5个元素的数组：字符串的长度
 \end{lstlisting}
 
-Function broadcasting examples:
+函数广播的例子：
 \begin{lstlisting}
   t(x::Float64, y::Float64 = 1.0) = x * y
-  t(1.0, 2.0)               # OK
-  t([1.0 2.0])              # error
-  t.([1.0 2.0])             # OK
-  t([1.0 2.0], 2.0)         # error
-  t.([1.0 2.0], 2.0)        # OK
-  t.(2.0, [1.0 2.0])        # OK
-  t.([1.0 2.0], [1.0 2.0])  # OK
-  t.([1.0, 2.0], [1.0 2.0]) # OK
+  t(1.0, 2.0)               # 成功
+  t([1.0 2.0])              # 错误
+  t.([1.0 2.0])             # 成功
+  t([1.0 2.0], 2.0)         # 错误
+  t.([1.0 2.0], 2.0)        # 成功
+  t.(2.0, [1.0 2.0])        # 成功
+  t.([1.0 2.0], [1.0 2.0])  # 成功
+  t.([1.0, 2.0], [1.0 2.0]) # 成功
 \end{lstlisting}
 
-\section{Essential general usage functions}
+\section{基本常用函数}
 \begin{lstlisting}
-  show(collect(1:100)) # show text representation of an object
-  eps()             # distance from 1.0 to next representable Float64
-  nextfloat(2.0)    # next float representable, similarly provided prevfloat
+  show(collect(1:100)) # 显示对象的字符串表示
+  eps()             # 从 1.0 到下一个可表示的 Float64 类型数的差距（译注：机器相对误差）
+  nextfloat(2.0)    # 下一个可表示的浮点数，类似地，提供了 prevfloat
   isequal(NaN, NaN) # true
   NaN == NaN        # false
   NaN === NaN       # true
@@ -731,106 +753,106 @@ Function broadcasting examples:
   1 === 1.0         # false
   0.0 == -0.0       # true
   0.0 === -0.0      # false
-  isfinite(Inf)     # false, similarly provided: isinf, isnan
-  fld(-5, 3), mod(-5, 3) # (-2, 1), division towards minus infinity
-  div(-5, 3), rem(-5, 3) # (-1, -2), division towards zero
-  findall(x -> mod(x, 2) == 0, 1:8) # find indices for which function returns true
-  x = [1 2]; identity(x) === x # true, identity function
-  @info "Info"      # print information, similarly @warn and @error (see Logging module)
-  ntuple(x->2x, 3)  # create tuple by calling x->2x with values 1, 2 and 3
-  @isdefined x      # if variable x is defined
-  y = Array{Any}(undef,2); isassigned(y, 3)  # if position 3 in array is assigned (not out of bounds or #undef)
-  fieldtype(typeof(1:2),:start) # get type of the field in composite type (passed as symbol)
-  fieldnames(typeof(1:2)) # get field names of a type
-  zip(1:3, 1:3) |> collect # convert iterables to iterable tuple and pass it to collect
-  enumerate("abc")  # create iterator of tuples (index, collection element)
-  collect(enumerate("abc")) # and materialize it
-  isempty("abc")    # check if a collection is empty; strings are treated as collections of characters
-  'b' in "abc"      # check if element is in a collection
-  indexin(collect("abc"), collect("abrakadabra")) # [1, 2, nothing] ('c' not found), needs arrays
-  findall(in("abrakadabra"), "abc") # [1, 2] ('c' was not found)
-  unique("abrakadabra") # return unique elements
-  issubset("abc", "abcd") # check if every element in fist collection is in the second
-  argmax("abrakadabra") # an index of maximal element (3 - 'r' in this case)
-  findmax("abrakadabra") # tuple: a maximal element and its index
-  filter(x->mod(x,2)==0, 1:10) # retain elements of a collection that meet predicate
-  dump(1:2:5)       # show all user-visible structure of an object
-  sort(rand(10))    # sort 10 uniform random values, sort! for in-place operation
+  isfinite(Inf)     # false，类似地提供了 isinf, isnan
+  fld(-5, 3), mod(-5, 3) # (-2, 1), 朝向负无穷的整数除法
+  div(-5, 3), rem(-5, 3) # (-1, -2), 朝向零的整数除法
+  findall(x -> mod(x, 2) == 0, 1:8) # 找到使函数为真的索引
+  x = [1 2]; identity(x) === x # true，返回参数本身
+  @info "Info"      # 打印信息，类似地有 @warn 和 @error （参见 Logging 模块）
+  ntuple(x->2x, 3)  # 通过以值 1、2、3 调用 x->2x 创建元组
+  @isdefined x      # 变量 x 是否被定义
+  y = Array{Any}(undef,2); isassigned(y, 3)  # 数组中的第3位是否被赋值（而不是越界或者 #undef）
+  fieldtype(typeof(1:2),:start) # 获取复合类型中域的类型（以符号传参）
+  fieldnames(typeof(1:2)) # 获取类型中域的名称
+  zip(1:3, 1:3) |> collect # 将迭代器打包为迭代器元组，并且将其传给 collect 函数
+  enumerate("abc")  # 创建能够遍历由索引和内容元素构成的元组的迭代器
+  collect(enumerate("abc")) # 并将其转换为数组
+  isempty("abc")    # 检查一个组合是否为空；字符串视为字符的组合
+  'b' in "abc"      # 检查元素是否在组合里
+  indexin(collect("abc"), collect("abrakadabra")) # [1, 2, nothing] （'c' 没有找到），需要数组
+  findall(in("abrakadabra"), "abc") # [1, 2] （'c' 没有找到）
+  unique("abrakadabra") # 舍去重复的元素
+  issubset("abc", "abcd") # 检查是否第一个组合里的每一个元素都在第二个组合里（译注：判断是否为子集）
+  argmax("abrakadabra") # 最大元素的索引（3：对应'r'）
+  findmax("abrakadabra") # 最大元素及其索引构成的元组
+  filter(x->mod(x,2)==0, 1:10) # 保留一个组合里满足条件的元素
+  dump(1:2:5)       # 显示该对象所有对用户可见的结构
+  sort(rand(10))    # 对 10 个随机数排序，sort! 可进行原位排序
 \end{lstlisting}
 
-\section{Reading and writing data}
-For I/O details refer documentation. There are numerous packages providing this functionality.
-Basic operations from \lstinline|DelimitedFiles| package:
+\section{读写数据}
+有关输入输出的细节，见 Julia 文档。有大量的包提供了该功能。
+\lstinline|DelimitedFiles| 包中的基本操作有：
 \begin{itemize}
-  \item \lstinline|readdlm|: read from file
-  \item \lstinline|writedlm|: write to a file
+  \item \lstinline|readdlm|：从文件读
+  \item \lstinline|writedlm|：写入文件
 \end{itemize}
 
-Warning! Trailing spaces are not discarded if \lstinline|delim=' '| in file reading.
+警告！如果文件读取时设置\lstinline|delim=' '|，则空格不会被忽略。
 
-\section{Random numbers}
-Basic random numbers:
+\section{随机数}
+基本的随机数用法：
 \begin{lstlisting}
-  Random.seed!(1) # set random number generator seed to 1; needs calling first: using Random
-  rand()        # generate random number from U[0,1)
-  rand(3, 4)    # generate 3x4 matrix of random numbers from U[0,1]
-  rand(2:5, 10) # generate vector of 10 random integer numbers in range form 2 to 5
-  randn(10)     # generate vector of 10 random numbers from standard normal distribution
+  Random.seed!(1) # 设定随机数种子为 1；需要先调用 using Random
+  rand()        # 在 U[0,1) 范围内生成随机数
+  rand(3, 4)    # 在 U[0,1) 范围内生成 3x4 随机数矩阵
+  rand(2:5, 10) # 在 2 到 5 范围内生成 10 个随机整数构成的数组
+  randn(10)     # 依正态分布生成 10 个随机数构成的数组
 \end{lstlisting}
 
-Advanced randomness form \lstinline|Distributions| package:
+\lstinline|Distributions| 包中的进阶随机数：
 \begin{lstlisting}
-  using Distributions # load package
-  sample(1:10, 10)    # single bootstrap sample from set 1-10
-  b = Beta(0.4, 0.8)  # Beta distribution with parameters 0.4 and 0.8
-                      # see documentation for supported distributions
-  mean(b)             # expected value of distribution b
-                      # see documentation for other supported statistics
-  rand(b, 100)        # 100 independent random samples from distribution b
+  using Distributions # 加载包
+  sample(1:10, 10)    # 从集合 1 到 10 中的随机取样
+  b = Beta(0.4, 0.8)  # 参数为 0.4 和 0.8 的 beta 分布
+                      # 支持的分布详见文档
+  mean(b)             # b 分布的期望值
+                      # 支持的统计详见文档
+  rand(b, 100)        # b 分布下100个独立随机取样
 \end{lstlisting}
 
-\section{Statistics and machine learning}
-Visit \url{http://juliastats.github.io/} for the details (in particular R-like data frames).
+\section{统计与机器学习}
+访问 \url{http://juliastats.github.io/} 获取更多信息（尤其是类似于 R 语言的数据框架）。
 
-Starting with Julia version 1.0 there is a core language construct \lstinline|Missing| that allows to represent missing value.
+Julia 从 1.0 版开始引入新的核心语言结构 \lstinline|Missing| 以表示缺失的值。
 \begin{lstlisting}
-  missing # Missing value
+  missing # 缺失的值
   ismissing(missing) # true
-  coalesce(missing, 1, 2) # return first non-missing value, or missing if all are missing
+  coalesce(missing, 1, 2) # 返回第一个没有缺失的值，当所有值都缺失的时候返回 missing
 \end{lstlisting}
 
-\section{Macros}
-You can define macros (see documentation for details). Useful standard macros.
+\section{宏}
+你可以定义宏（macro）（详见文档）。有用的标准宏有：
 
-Assertions:
+断言：
 \begin{lstlisting}
-  @assert 1 == 2 "ERROR"            # 2 macro arguments; error raised
-  using Test                        # load Test package
-  @test 1 == 2                      # similar to assert; error
-  @test_throws DomainError sqrt(-1) # passed, sqrt(-1) is not possible
+  @assert 1 == 2 "ERROR"            # 2 个宏参数，引发错误
+  using Test                        # 加载 Test 包
+  @test 1 == 2                      # 与 assert 类似；错误similar to assert; error
+  @test_throws DomainError sqrt(-1) # 通过，不可以使用 sqrt(-1)
 \end{lstlisting}
 
-Benchmarking:
+基准测试：
 \begin{lstlisting}
-  @time [x for x in 1:10^6];    # print time and memory
-  @timed [x for x in 1:10^6];   # return value, time and memory
-  @elapsed [x for x in 1:10^6]   # return time
-  @allocated [x for x in 1:10^6] # return memory
+  @time [x for x in 1:10^6];    # 打印出所用时间和内存
+  @timed [x for x in 1:10^6];   # 返回值、时间和内存
+  @elapsed [x for x in 1:10^6]   # 返回时间
+  @allocated [x for x in 1:10^6] # 返回内存
 \end{lstlisting}
-Use \lstinline|BenchmarkTools| package for a more powerful benchmarking functionality.
+使用 \lstinline|BenchmarkTools| 包以获得更强大的基准测试功能。
 
-\section{Plotting}
-There are several plotting packages for Julia like \lstinline|Plots| (which is an umbrella packages for several plotting backends) and \lstinline|PyPlot|.
-Here we show how to use on \lstinline|PyPlot| that should be familiar to Python users.
+\section{绘图}
+Julia 有几个绘图包，例如 \lstinline|Plots| （涵盖了多个绘图后端的接口包）以及 \lstinline|PyPlot|.
+这里我们介绍 Python 用户会觉得似曾相识的 \lstinline|PyPlot|。
 \begin{lstlisting}
   using PyPlot
   using Random
-  Random.seed!(1) # make the plot reproducible
+  Random.seed!(1) # 使绘图可重现
   x, y = randn(100), randn(100)
   scatter(x, y)
 \end{lstlisting}
 
-A simple example adapting\newline\url{https://matplotlib.org/1.2.1/examples/pylab_examples/histogram_demo.html}:
+我们从\url{https://matplotlib.org/1.2.1/examples/pylab_examples/histogram_demo.html}借用一个例子：
 \begin{lstlisting}
   using Distributions
   using PyPlot
@@ -851,28 +873,28 @@ A simple example adapting\newline\url{https://matplotlib.org/1.2.1/examples/pyla
   grid(true)
 \end{lstlisting}
 
-producing:
+产生：
 \begin{figure}[h]
 \centering
 \includegraphics[width=9cm]{hist.pdf}
 \end{figure}
 
-\section{Working with tabular data}
+\section{处理表格数据}
 
-There are multiple packages supporting tabular data for the Julia language.
+Julia 里有多个包支持表格数据。
 
-Here we will show how \lstinline|DataFrames| and \lstinline|CSV| packages can be used.
+这里我们介绍 \lstinline|DataFrames| 和 \lstinline|CSV| 两个包。
 
-Loading a CSV file:
+加载一个逗号分隔表（CSV）文件：
 \begin{lstlisting}
   using DataFrames
   using CSV
   path = joinpath(dirname(pathof(DataFrames)), "../docs/src/assets/iris.csv")
   df = DataFrame(CSV.File(path));
-  first(df, 5) # print first 5 rows of a data frame; use the last function for last rows
+  first(df, 5) # 打印数据中的前5行；使用 last 函数来打最后几行
 \end{lstlisting}
 
-produces the following output:
+生成如下的输出：
 \begin{lstlisting}
   4x5 DataFrame
   | Row | SepalLength | SepalWidth | PetalLength | PetalWidth | Species     |
@@ -884,43 +906,45 @@ produces the following output:
   | 4   | 4.6         | 3.1        | 1.5         | 0.2        | Iris-setosa |
 \end{lstlisting}
 
-Here is a limited list of most useful operations on a \lstinline|DataFrame| we have just read in:
+读入\lstinline|DataFrame| 后，让我们介绍几条处理它的最有用的几个操作：
 \begin{lstlisting}
-  DataFrame(a=1:10, b=rand(10)) # manual creation of a DataFrame from a list of columns
-  describe(df) # get a summary information about a data frame
-  df.Species # get a column Species from a data frame without copying
-  df[!, :Species] # the same as above
-  df[1, 5] # get a value from row 1 and column 5 (Species again) from a DataFrame
-  df[1:2, 1:2] # subset a data frame getting two first rows and two first columns
-  Matrix(df[:, 1:4]) # convert columns 1 to 4 to a matrix
-  names(df) # get column names in the data frame as Symbols
-  nrow(df), ncol(df) # number of rows and columns in a data frame
-  df.key = axes(df, 1) # add a new variable named key to a data frame
-  sort(df, :SepalWidth) # return a new data frame that is sorted by SepalWidth column
-  filter(row -> row.SepalWidth > 3, df) # return a new data frame with only rows that meet the predicate
-  push!(df, (1, 2, 3, 4, "Some species")) # add a new row at the end of the data frame
+  DataFrame(a=1:10, b=rand(10)) # 由几组数据手动生成 DataFrame
+  describe(df) # 获取数据框架的概要信息
+  df.Species # 获取 df 中的 Species 字段而不进行复制操作
+  df[!, :Species] # 同上
+  df[1, 5] # 从数据框架中获取第1行第5列的值
+  df[1:2, 1:2] # 创建数据框架的子集，由前两行的前两列构成
+  Matrix(df[:, 1:4]) # 将第1到第4列转换为矩阵
+  names(df) # 以 Symbols 形式获取数据框架中的字段名
+  nrow(df), ncol(df) # 数据框架的行数和列数number of rows and columns in a data frame
+  df.key = axes(df, 1) # 向数据框架中添加一个新变量 key
+  sort(df, :SepalWidth) # 返回一个以 SepalWidth 排序的新数据框架
+  filter(row -> row.SepalWidth > 3, df) # 返回一个仅包含满足预设条件的行的新数据框架
+  push!(df, (1, 2, 3, 4, "Some species")) # 在数据框架的末尾加一新行
 
-  # calculate sum of SepalLength column by Species column and store it in x column
+  # 按 Species 计算 SepalLength 的总和，并将结果存在 x 中
   by(df, :Species, x = :SepalLength=>sum)
 
-  # transform df to long format taking SepalLength as values and key and Species as id variable
+  # 把 df 转变成以 SepalLength 为值而 key 与 Species 对为 id 的长格式
   df2 = stack(df, :SepalLength, [:key, :Species])
-  unstack(df2) # a reverse operation - wide to long format
+  unstack(df2) # 相反的操作：宽到长格式
 \end{lstlisting}
 
 
-\section{The Joy of Julia}
+\section{Julia 之乐}
 
-The Julia language is so flexible that it allows you to transform
+Julia 语言是极度灵活，你甚至可以将左图变为右图。
 
-this$\quad$
-\includegraphics{heart_in.png}
-$\quad$to this$\quad$
+\begin{center}
+\includegraphics{heart_in.png}$\quad$
 \includegraphics{heart_out.png}
+\end{center}
 
-You can fully appreciate it (actually it is an animation of revolving hearts) when you run the code yourself. You can find it here
+
+你在亲自运行这段代码的时候你会欣赏到它的美（实际上这是旋转心形的动画）。
+你可以在这里找到它：
 \url{https://github.com/maxbennedich/code-golf/tree/cea06287689868f2342959f9c12f0b629a1d0cf4/hearts}.
 
-Please make sure that you run the code on a fast terminal with font that supports Unicode (for instance under Windows I can recommend ConEmu, \url{https://conemu.github.io/}).
+你需要一个快速的终端以及支持 Unicode 的字体来运行这段代码（例如在Windows下我推荐ConEmu, \url{https://conemu.github.io/}）。
 
 \end{document}

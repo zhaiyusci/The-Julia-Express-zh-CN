@@ -1,12 +1,16 @@
-# The Julia Express
+# Julia 速览 —— The Julia Express 简体中文翻译
 
  <img src="rocketship11.png" alt="Julia Express" width="150">
 
-A current Julia 1.0 manual (also valid for Julia 1.1) is available as [PDF document](http://bogumilkaminski.pl/files/julia_express.pdf).
 
-Versions of manual for older releases of Julia:
+本项目对 _The Julia Express_ [github repo](https://github.com/bkamins/The-Julia-Express) 进行简体中文翻译。
 
-* Julia 0.6: [PDF](http://bogumilkaminski.pl/files/julia_express_v0.6.2.pdf)
-* Julia 0.5: [PDF](http://bogumilkaminski.pl/files/julia_express_v0.5.0.pdf), [Jupyer notebook](http://bogumilkaminski.pl/files/The%20Julia%20Express.ipynb) or [HTML](http://bogumilkaminski.pl/files/The%20Julia%20Express.html)
-* Julia 0.4: [PDF](http://bogumilkaminski.pl/files/julia_express_v0.4.5.pdf)
-* Julia 0.3: [PDF](http://bogumilkaminski.pl/files/julia_express_v0.3.3.pdf)
+
+当前对应原文 commit：0ba97fa41ac6e0232f87b9d19a3aeb2c755f81cd
+
+翻译原则：
++ 在现代汉语白话文的范围内，语言尽量简洁；
++ 用语习惯以中国大陆习惯用法为准；
++ 术语第一次出现，保留英文原文；
++ 适当意译。
+
