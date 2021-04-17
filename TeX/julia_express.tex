@@ -200,6 +200,11 @@ Julia 中整数的重要特性是在 64 位 Julia 中是64位的，而在32位Ju
 \begin{lstlisting}
   convert(Int64, 1.0) # 浮点数转为整数
 \end{lstlisting}
+Julia 无法准确进行类型转化时会抛出非精确转化错误。
+\begin{lstlisting}
+  convert(Int64, 1.3) # 将浮点数转换为整数 -> 抛出非精确转化错误
+\end{lstlisting}
+使用 \lstinline|floor(Int64,1.3)|、 \lstinline|ceil(Int64,1.3)| 或 \lstinline|round(Int64,1.3)| 来解决这一问题。
 字符串的解读可通过 \lstinline|parse(Type, str)| 完成：
 \begin{lstlisting}
   parse(Int64, "1") # 以 Int64 类型解读字符串 "1"
