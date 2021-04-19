@@ -44,8 +44,9 @@
 %\setlength{\parindent}{0pt}
 
 \begin{document}
-\title{Julia 速览}
+\title{Julia 速览\footnote{英文版 commit： \texttt{d8cd0dd8a99d08c1a7499cb708ec3792751d24f4}。}}
 \author{作者：Bogumi\l{} Kami\'n{}ski\\翻译：翟羽}
+\date{2021年4月19日}
 \maketitle
 
 {\centering
@@ -121,7 +122,7 @@ pandoc -i julia_express.tex -f latex -t html5 -s -o julia_express.html
   \item \lstinline|;| （进入系统 shell 模式）；
   \item \lstinline|]| （进入包管理模式）；
   \item \lstinline|Ctrl-l| （清空屏幕）；
-  \item 表达式后接 \lstinline|;| 可停止其值输出到 REPL中[脚本（script）模式不需要]。
+  \item 表达式后接 \lstinline|;| 可阻止其值输出到 REPL中[脚本（script）模式不需要]。
 \end{enumerate}
 
 Julia REPL 基本功能举例如下（亦可在脚本中使用）：
@@ -140,22 +141,22 @@ Julia REPL 基本功能举例如下（亦可在脚本中使用）：
 
 将下列示例脚本保存至文件中并执行（在以后的章节中有更多例子）：
 \begin{lstlisting}
-"""Eratosthenes 筛法函数文档（ docstring ）"""
-function es(n::Int) # 接受一个整数类型参数
-    isprime = trues(n) # n 个元素的真（true）向量
-    isprime[1] = false # 1 不是质数
-    for i in 2:isqrt(n) # 在小于或等于 sqrt(n) 的整数中循环
-        if isprime[i] # 条件求值
-            for j in i^2:i:n # 步长为 i 的序列
-                isprime[j] = false
-            end
-        end
-    end
-    return filter(x -> isprime[x], 1:n) # 使用匿名函数筛选
-end
-
-println(es(100))         # 打印小于或等于 100 的全部素数
-@time length(es(10^6))   # 核验函数执行时间与内存使用
+  """Eratosthenes 筛法函数文档（ docstring ）"""
+  function es(n::Int) # 接受一个整数类型参数
+      isprime = trues(n) # n 个元素的真（true）向量
+      isprime[1] = false # 1 不是质数
+      for i in 2:isqrt(n) # 在小于或等于 sqrt(n) 的整数中循环
+          if isprime[i] # 条件求值
+              for j in i^2:i:n # 步长为 i 的序列
+                  isprime[j] = false
+              end
+          end
+      end
+      return filter(x -> isprime[x], 1:n) # 使用匿名函数筛选
+  end
+  
+  println(es(100))         # 打印小于或等于 100 的全部素数
+  @time length(es(10^6))   # 计算函数执行时间与内存使用
 \end{lstlisting}
 
 \section{基本字面值和类型}
@@ -168,12 +169,12 @@ println(es(100))         # 打印小于或等于 100 的全部素数
   "s"::AbstractString  # 抽象字符串，可以有 Unicode，参见下述字符串（String） 
 \end{lstlisting}
 语法 \lstinline|x::Type| 指字面值（literal） \lstinline|x| 且断言（assert）其为 \lstinline|Type| 类型。
-实务上说，类型断言并非必要，这里我们只是用它来指示每种字面值的类型。
+通常，类型断言并非必要，这里我们只是用它来指示每种字面值的类型。
 所有的基本类型都是不可变的（immutable）。
 
 以相同的方式可进行变量的类型断言，并可用于代码纠错。
 
-Julia 中整数的重要特性是在 64 位 Julia 中是64位的，而在32位Julia 中是32位的。
+Julia 中整数在 64 位 Julia 中是64位的，而在32位Julia 中是32位的。
 这意味着 \lstinline|1::Int32| 断言在 64位Julia中会报错。
 注意 \lstinline|Int| 是由 Julia 版本决定的常量，它要么是 \lstinline|Int64|，要么是 \lstinline|Int32|
 （无符号整数 \lstinline|UInt|也类似）。
@@ -185,7 +186,7 @@ Julia 中整数的重要特性是在 64 位 Julia 中是64位的，而在32位Ju
   Int64('a')     # 字符到整数 （译注：结果为 97）
   Int64(2.0)     # 浮点数到整数
   Int64(1.3)     # 精度损失错误
-  Int64("a")     # 没有可用的转化错位
+  Int64("a")     # 没有可用的转化错误
   Float64(1)     # 整数到浮点数
   Bool(1)        # 转换为 true
   Bool(0)        # 转换为 false
@@ -204,7 +205,7 @@ Julia 无法准确进行类型转化时会抛出非精确转化错误。
 \begin{lstlisting}
   convert(Int64, 1.3) # 将浮点数转换为整数 -> 抛出非精确转化错误
 \end{lstlisting}
-使用 \lstinline|floor(Int64,1.3)|、 \lstinline|ceil(Int64,1.3)| 或 \lstinline|round(Int64,1.3)| 来解决这一问题。
+可使用 \lstinline|floor(Int64,1.3)|、 \lstinline|ceil(Int64,1.3)| 或 \lstinline|round(Int64,1.3)| 来解决这一问题。
 字符串的解读可通过 \lstinline|parse(Type, str)| 完成：
 \begin{lstlisting}
   parse(Int64, "1") # 以 Int64 类型解读字符串 "1"
@@ -212,7 +213,7 @@ Julia 无法准确进行类型转化时会抛出非精确转化错误。
 多个参数自动提升为相同类型（若可行）可用 \lstinline|promote| 达成：
 \begin{lstlisting}
   promote(true, BigInt(1)//3, 1.0) # BigFloat 类型元组（参见 Tuple） , true 转换为 1.0
-  promote("a", 1)                  # 无法提升相同类型
+  promote("a", 1)                  # 无法提升为相同类型
 \end{lstlisting}
 许多操作（算术、赋值）自动进行类型提升，故这是补足 Julia 没有类型自动转换规则的方法。
 
@@ -220,7 +221,7 @@ Julia 无法准确进行类型转化时会抛出非精确转化错误。
 \begin{lstlisting}
   typeof("abc")              # 返回 String， String是 AbstractString的子类型
   isa("abc", AbstractString) # true
-  isa(1, Float64)            # false, 整数不是浮点数
+  isa(1, Float64)            # false, 1 是整数而不是浮点数
   isa(1.0, Float64)          # true
   1.0 isa Number             # 另一种语法；true，Number （数）是一种抽象类型
   supertype(Int64)           # Int64 的父类型
@@ -366,7 +367,7 @@ Julia 无法准确进行类型转化时会抛出非精确转化错误。
                        # prod, minimum, maximum, any, all；
                        # 使用统计函数前需要 using Statistics
   count(>(0), a)       # 计算使条件成立的次数，类似地，可用于 all, any
-                       # 这里注意我们用 >(0) 创建了一个匿名函数
+                       # 注意这里我们用 >(0) 创建了一个匿名函数
 \end{lstlisting}
 
 访问函数：
@@ -450,7 +451,7 @@ Julia 无法准确进行类型转化时会抛出非精确转化错误。
   fieldnames(Point) # 获取所有的域名
 \end{lstlisting}
 
-类似地，你可以通过删除\lstinline|mutable| 关键字来定义不可变复合类型（命名元组是匿名的不可变struct）。 
+类似地，你可以通过删除 \lstinline|mutable| 关键字来定义不可变复合类型（命名元组是匿名的不可变struct）。 
 
 Julia 也支持联合（union）类型（详见 Julia 手册中 Type Unions 相关章节）。
 
@@ -485,12 +486,12 @@ Julia 也支持集合（set），相似的用 \lstinline|Set| 可以构造集合
   "\$199"                # 要表示 $ 符号，你必须转义
   raw"D:\path"           # 原始（raw）字符串字面值，在表示 Windows 下的路径很有用
   s = "abc"              # 类型为 String 的字符串
-  chop(s)                # 删除 s 的最后一个字符，返回一 SubString
+  chop(s)                # 删除 s 的最后一个字符，返回一 SubString 类型对象
 \end{lstlisting}
 
 \lstinline|String| 和 \lstinline|SubString| 皆为 \lstinline|AbstractString| 的子类型。
 \lstinline|SubString| 可避免复制字符串。
-通常，当写自己的程序时，最键实践是假设用户会使用 \lstinline|AbstractString|。
+通常，当写自己的程序时，应假设用户会使用 \lstinline|AbstractString|。
 
 与 Perl 兼容的（PCRE） 正则表达式处理：
 \begin{lstlisting}
