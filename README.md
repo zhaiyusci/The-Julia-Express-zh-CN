@@ -4,7 +4,7 @@
 
  <img src="rocketship11.png" alt="Julia Express" width="150">
 
-本项目对 _The Julia Express_ [github repo](https://github.com/bkamins/The-Julia-Express) 进行简体中文翻译。
+本项目对 [_The Julia Express_ ](https://github.com/bkamins/The-Julia-Express) 进行简体中文翻译。
 
 当前对应原文 commit：d8cd0dd8a99d08c1a7499cb708ec3792751d24f4
 
